@@ -2,7 +2,7 @@ import vue from 'vue'
 import myMesssage from './myMsg'
 import myNotify from './myNotify'
  
-// 组件构造器，构造出一个 vue组件实例
+// 创建vue组件实例
 const message = vue.extend(myMesssage);
 const notify = vue.extend(myNotify);
 
@@ -86,7 +86,7 @@ let myMsg = {
   notify: ({
     content, 
     type, 
-    time = 3500,
+    time = 1500,
   }) =>{
     //创建一个存放通知的div
     const notifyDom = new notify({
@@ -128,7 +128,6 @@ let myMsg = {
 
 //注册
 function register(){
-  //注册
   vue.prototype.$myMsg = myMsg
 }
 
