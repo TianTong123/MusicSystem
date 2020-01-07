@@ -1,6 +1,10 @@
 import axios from 'axios';
-import msg from "@/components/myMsg"
+import msg from "@/components/myMsg";
+import router from "@/router";
+import store from "@/store/store";
+import util from "@/util/utils";
 
+let myMsg = msg.myMsg;
 /**
  * @url 地址
  * @method 请求方法
@@ -20,73 +24,38 @@ export const http = ({
     responseType,
 }) => {
     // axios 默认设置
-    axios.defaults.retry = 3;//重试次数
+    axios.defaults.retry = 1;//重试次数
     axios.defaults.retryDelay = 1000;//重试延迟
-
-    // axios request拦截器
-    // axios.instance.interceptors.request.use(
-    //   config => {
-    //     if (store.state.token) { // 判断是否存在token，如果存在的话，则每个http header都加上token
-    //       config.headers.authorization = store.state.token  //请求头加上token
-    //     }
-    //     return config
-    //   },
-    //   err => {
-    //     return Promise.reject(err)
-    // })
   
     // axios response拦截器
     axios.interceptors.response.use(
       response => {
         //登录失效的时候重定向为登录页面
         if(response.data.code == 2){
-          msg.confirmMessage({
+          myMsg.confirm({
             type: 'error',
             content: '用户数据失效！点确定返回登录页',
-            callback: ()=>{this.$router.replace({name: 'login'})}
+            callback: ()=>{
+              router.replace({name: 'login'})
+            }
           })
           return response
         }else if(response.data.code == 3){
-          msg.confirmMessage({
+          myMsg.confirm({
             type: 'error',
             content: '系统错误！',
           })
           return response
         }else {
           let config = response.config;
-          // 判断是否配置了重试      
-          if (!config || !config.retry) return response;
-          // 设置重置次数，默认为0      
-          config.__retryCount = config.__retryCount || 0;
-          // 判断是否超过了重试次数      
-          if (config.__retryCount >= config.retry) {
-              userLogout()
-              return response
-          }
-          config.__retryCount += 1;
-          // 延时
-          var backoff = new Promise(function(resolve) {
-              setTimeout(function() {
-                  resolve();
-              }, config.retryDelay || 1);
-          });
-
-          //重新发起axios请求              
-          return backoff.then(function() {
-              // var authorization = jwt;
-              // if (authorization) {
-              //     config.headers.authorization = authorization;
-              // }
-              return axios(config);
-          });
           return response
         }
       },
       //接口错误状态处理
       error => {
-        msg.confirmMessage({
+        myMsg.confirm({
           type: 'error',
-          content: resizeBy.data.msg,//显示返回的错误信息
+          content: "这个错误，是后台的锅！",//显示返回的错误信息
         })
         return error
       }
@@ -97,12 +66,22 @@ export const http = ({
       method: method,
       url: url,
       timeout: 20000,
+      headers: {}
     };
     
     // 用来覆盖默认的超时时间
     if (timeout) {
       config.timeout = timeout;
     }
+    
+    let token = util.getSession("token")
+    if (token) {
+      config.headers.uid = "111";
+      config.headers.token = token;
+    }
+    
+ 
+
 
     //get方法拼接参数
     method = method.toUpperCase();

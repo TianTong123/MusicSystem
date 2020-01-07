@@ -14,6 +14,7 @@
 <style scoped>
 .msg{
   position: fixed;
+  z-index: 99999;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -29,7 +30,18 @@
   height: 360px;
   border-radius: 8px;
   background-color: #fff;
-  box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.1)
+  box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.1);
+  animation: show cubic-bezier(.18,.89,.32,1.28) .4s;
+}
+@keyframes show{
+  0%{
+    top: 20%;
+    opacity: 0;
+  }
+  100%{
+    top: 50%;
+    opacity: 1;
+  }
 }
 img{
   width: 100%;

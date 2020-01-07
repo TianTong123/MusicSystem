@@ -23,6 +23,9 @@ export default {
       })
     },
     msg(){
+      // this.$http.test({
+      //   accountCode: "565165",
+      // })
       this.$myMsg.confirm({
         content: this.num,
         type: 'error',
