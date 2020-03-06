@@ -1,4 +1,4 @@
-# music_system
+# restarurant_management_system
 
 > A Vue.js project
 
