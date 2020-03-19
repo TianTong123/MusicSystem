@@ -15,8 +15,8 @@ export default new Router({
       component: () => import("@/views/login/login") //主页
     },
     {
-      path: "/restarurant",
-      name: "restarurant",
+      path: "/tiantong",
+      name: "tiantong",
       redirect: "/home",
       component: () => import("@/views"), //框
       children: [
@@ -28,29 +28,37 @@ export default new Router({
           },
           component: () => import("@/views/home/home"), //主页
         },
-        {
-          path: "account",
-          name: "account",
+        {//用户管理
+          path: "user",
+          name: "user",
           meta:{
-            title: '账号管理',
+            title: '用户管理',
           },
-          component: () => import("@/views/account/account"), //账号管理
+          component: () => import("@/views/user/user"), 
         },
-        {
-          path: "order",
-          name: "order",
+        { //菜单管理
+          path: "menu",
+          name: "menu",
           meta:{
-            title: '订单管理',
+            title: '菜单管理',
           },
-          component: () => import("@/views/order/order"), //订单管理
+          component: () => import("@/views/menu/menu"),
         },
-        {
-          path: "commodity",
-          name: "commodity",
+        { //审核管理
+          path: "examine",
+          name: "examine",
           meta:{
-            title: '商品管理',
+            title: '审核管理',
           },
-          component: () => import("@/views/commodity/commodity"), //商品管理
+          component: () => import("@/views/examine/examine"), 
+        },
+        { //权限管理
+          path: "right",
+          name: "right",
+          meta:{
+            title: '权限管理',
+          },
+          component: () => import("@/views/right/right"), 
         },
       ]
     },

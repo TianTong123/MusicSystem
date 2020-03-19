@@ -1,7 +1,7 @@
 <template>
-  <div class="restarurant">
+  <div class="tiantong">
     <header>
-      <div class="logo-title">余文国际五星级连锁酒店管理System</div>
+      <div class="logo-title">TianTong音乐后台管理系统</div>
       <div class="user-wrap">
         <el-dropdown trigger="click" @command="handleCommand">
           <el-avatar size="small" src=""></el-avatar>
@@ -24,19 +24,23 @@
           active-text-color="#ffd04b">
           <el-menu-item index="home">
             <i class="el-icon-s-data"></i>
-            <span slot="title">销售统计</span>
+            <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item index="order">
-            <i class="el-icon-s-claim"></i>
-            <span slot="title">订单管理</span>
-          </el-menu-item>
-          <el-menu-item index="commodity">
-            <i class="el-icon-cherry"></i>
-            <span slot="title">商品管理</span>
-          </el-menu-item>
-          <el-menu-item index="account">
+          <el-menu-item index="user">
             <i class="el-icon-user-solid"></i>
-            <span slot="title">人员管理</span>
+            <span slot="title">用户管理</span>
+          </el-menu-item>
+          <el-menu-item index="examine">
+            <i class="el-icon-cpu"></i>
+            <span slot="title">审核管理</span>
+          </el-menu-item>
+          <el-menu-item index="menu">
+            <i class="el-icon-s-operation"></i>
+            <span slot="title">菜单管理</span>
+          </el-menu-item>
+          <el-menu-item index="right">
+            <i class="el-icon-ice-tea"></i>
+            <span slot="title">权限管理</span>
           </el-menu-item>
         </el-menu>
       </div>
@@ -47,6 +51,7 @@
             :key="item.name"
             :label="item.title"
             :name="item.name"
+            v-loading="loading"
           >
             <router-view></router-view>
           </el-tab-pane>
@@ -64,6 +69,12 @@ export default {
     return{
       activeTab: '',
       activeTabs: [],
+      
+    }
+  },
+  computed:{
+    loading(){
+      return this.$store.state.loading
     }
   },
   methods: {
@@ -94,6 +105,7 @@ export default {
       if (this.$route.name != targetName && this.activeTabs.length>1){
         this.activeTabs = tabs.filter(tab => tab.name !== targetName);
       }
+      util.saveSession('activeTabs', this.activeTabs);
     },
     //增加标签
     addTab(name, title) {

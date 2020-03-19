@@ -1,10 +1,9 @@
 <template>
-<div>
-<h1>欢迎来到余文国际</h1>
-  <button @click="test">登录</button>
-   <button @click="msg">消息</button>
-</div>
-  
+  <div>
+    <h1>TianTong音乐网站后台管理系统</h1>
+    <button @click="test">登录</button>
+    <button @click="msg">消息</button>
+  </div>
 </template>
 
 <script>
@@ -18,13 +17,14 @@ export default {
   },
   methods:{
     test(){
-      this.$http.helloWord({test: this.text}).then(res => {
+      this.$store.state.isFullLoading = true;
+      this.$http.test({test: this.text}).then(res => {
         this.returnMsg = res.data
       })
     },
     msg(){
-      this.$http.test({
-        accountCode: "111",
+      this.$http.test({test: this.text}).then(res => {
+        this.returnMsg = res.data
       })
       // this.$myMsg.confirm({
       //   content: this.num,

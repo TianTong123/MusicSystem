@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="bg"></div>
-    <span>余文国际后台管理系统</span>
+    <span>TianTong音乐后台管理系统</span>
     <div class="wrap">
       <div class="login-title">登录</div>
       <div class="login-bg"></div>
@@ -43,6 +43,7 @@ export default {
     login(){
       this.$refs['loginForm'].validate((valid) => {
         if (valid) {
+          this.$store.state.isFullLoading = true;
           this.$http.login({
             ...this.loginForm
           }).then(res => {
@@ -72,14 +73,6 @@ export default {
           
         }
       });
-    },
-    downLodeFile () {
-      let obj = {
-        viewPath: "OSP/M00/00/00/rBBkKF38FWSEQK4RAAAAAIzsYvY298.pdf", //文件路径
-        groupName: "OSP",
-        fileName: ""
-      };
-      downLoadFileFlow(obj, "模板简历.pdf");
     },
   }
 }
