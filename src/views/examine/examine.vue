@@ -2,116 +2,117 @@
   <div class="examine" style="height: 100%">
     
     <div class="m-wrap"> 
-      <el-tabs tab-position="left" style="height: 200px;">
-        <el-tab-pane label="用户审核">
-          
-        </el-tab-pane>
+      <el-tabs tab-position="left" style="height: 100%;">
         <el-tab-pane label="作品审核">
-          
+          <!-- 头 -->
+          <div class="m-head">
+            <div class="m-label">作品状态:</div>
+            <el-select v-model="formWork.state" @change="workStateChange" placeholder="请选择">
+              <el-option
+                v-for="item in workOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <el-button type="primary" icon="el-icon-search" @click="getWorkList" >搜索</el-button>
+          </div>
+          <!-- 分割线 -->
+          <el-divider></el-divider>
+          <!-- 表单 -->
+          <div class="m-body">
+            <el-table :data="workTableData" tyle="width: 100%">
+              <el-table-column type="selection" width="55"></el-table-column>
+              <el-table-column prop="name" label="音乐名" ></el-table-column>
+              <el-table-column prop="singer" label="歌手" ></el-table-column>
+              <el-table-column prop="createDate" label="上传时间" ></el-table-column>
+              <el-table-column fixed="right" label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="passWork(scope.row.id)">通过</el-button>
+                  <el-button type="text" size="small" @click="openWorkDia(scope.row.id)">不通过</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+    
+            <!-- 分页 -->
+            <el-pagination
+              @current-change="workHandleCurrentChange"
+              :current-page="workPageInfo.current"
+              :page-size="workPageInfo.pageSize"
+              layout="total, prev, pager, next, jumper"
+              :total="workTotal">
+            </el-pagination>
+          </div> 
+        </el-tab-pane>
+        <el-tab-pane label="歌手审核">
+          <!-- 头 -->
+          <div class="m-head">
+            <div class="m-label">歌手状态:</div>
+            <el-select v-model="formSinger.state" @change="singerStateChange" placeholder="请选择">
+              <el-option
+                v-for="item in singerOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+          <!-- 分割线 -->
+          <el-divider></el-divider>
+          <!-- 表单 -->
+          <div class="m-body">
+            <el-table :data="singerTableData" tyle="width: 100%">
+              <el-table-column prop="account" label="歌手账号" width="300"></el-table-column>
+              <el-table-column prop="accountName" label="歌手名字" sortable width="180"></el-table-column>
+              <el-table-column prop="saleCost" label="现价" sortable width="180"></el-table-column>
+              <el-table-column prop="type" label="类型"></el-table-column>
+              <el-table-column fixed="right" label="操作">
+                <template slot-scope="scope">
+                  <el-button type="text" size="small" @click="passSinger(scope.row)">通过</el-button>
+                  <el-button type="text" size="small" @click="openSingerDia(scope.row.id)">不通过</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+    
+            <!-- 分页 -->
+            <el-pagination
+              @current-change="singerHandleCurrentChange"
+              :current-page="singerPageInfo.current"
+              :page-size="singerPageInfo.pageSize"
+              layout="total, prev, pager, next, jumper"
+              :total="singerTotal">
+            </el-pagination>
+          </div> 
         </el-tab-pane>
       </el-tabs>
-      <!-- 头 -->
-      <div class="m-head">
-        <el-input v-model="searchForm.input" placeholder="请输入内容" clearable  prefix-icon="el-icon-search"></el-input>
-        <el-select v-model="searchForm.value" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-        <el-button type="primary" icon="el-icon-search">搜索</el-button>
-        <el-radio v-model="searchForm.radio" label="1">已下架</el-radio>
-        <el-radio v-model="searchForm.radio" label="2">已上架</el-radio>
-        <el-button type="primary" icon="el-icon-remove-outline">下架</el-button>
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="dialogFormVisible = true">新增商品</el-button>
-      </div>
-      <!-- 分割线 -->
-      <el-divider></el-divider>
-      <!-- 表单 -->
-      <div class="m-body">
-        <el-table 
-          v-loading="loading"
-          :data="tableData" 
-          style="width: 100%" 
-          tooltip-effect="dark" 
-          @selection-change="handleSelectionChange"
-          :default-sort = "{prop: 'originalCost', saleCost: 'descending'}">
-          <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="commodityName" label="商品名" width="300"></el-table-column>
-          <el-table-column prop="originalCost" label="原价" sortable width="180"></el-table-column>
-          <el-table-column prop="saleCost" label="现价" sortable width="180"></el-table-column>
-          <el-table-column prop="type" label="类型"></el-table-column>
-        </el-table>
-
-        <!-- 分页 -->
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pageInfo.currentPage"
-          :page-sizes="[5, 10, 15, 20]"
-          :page-size="pageInfo.size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="pageInfo.total">
-        </el-pagination>
-      </div>
-      <!-- 弹框 -->
-      <el-dialog title="新增商品" :modal="false" :visible.sync="dialogFormVisible" v-loading="loading">
-        <el-form :model="formData">
-          <div class="myform-item">
-            <el-form-item label="商品名:">
-              <el-input size="small" v-model="formData.commodityName"></el-input>
-            </el-form-item>   
-            <el-form-item label="类型:">
-            <el-select size="small" v-model="formData.type" placeholder="请选择商品类型">
-              <el-option label="区域一"  value="shanghai"></el-option>
-              <el-option label="区域二"  value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          </div>
-          <div class="myform-item">
-            <el-form-item label="原价:">
-              <el-input size="small" v-model="formData.originalCost"></el-input>
-            </el-form-item>
-            <el-form-item label="现价:">
-              <el-input size="small" v-model="formData.saleCost"></el-input>
-            </el-form-item>
-          </div>
-          <div class="myform-item">
-            <el-form-item label="图片:">
-              <el-upload
-                class="avatar-uploader"
-                action="http://192.168.17.126:8088/restaurant/file/upload"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
-                <img v-if="formData.picUrl" :src="`http://192.168.17.126:8088/restaurant/file/imgShow/${formData.picUrl}`" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="添加备选:">
-              <el-input size="mini" v-model="option.optionName" maxlength="5" show-word-limit style="margin-bottom: 5px" placeholder="备选名字"></el-input>
-              <el-input size="mini" v-model="option.price" type="number" style="width: 78px" placeholder="价格"></el-input>
-              <el-button size="mini" @click="addOption">添加</el-button>
-              <div class="label-wrap">
-                <div class="my-label" v-for="(e, index) in formData.options" :key="index">
-                  {{e.optionName}}
-                  <i class="close" @click="deleteOption(index)"/>
-                </div>
-              </div>
-            </el-form-item>
-          </div>
-          <el-form-item label="描述:">
-            <el-input rows="4" v-model="formData.remark" type="textarea" maxlength="240" show-word-limit></el-input>
-          </el-form-item>
+      
+      <!-- 作品弹框 -->
+      <el-dialog title="理由" :visible.sync="diaWork">
+        <el-form :model="formWorkRemark">
+            <el-form-item label="退回理由:">
+              <el-input size="small" v-model="formWorkRemark.commodityName"></el-input>
+            </el-form-item>    
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="dialogFormVisible = false">取 消</el-button>
-          <el-button size="small" type="primary" @click="addCommoity">确 定</el-button>
+          <el-button size="small" @click="closeDia">取 消</el-button>
+          <el-button size="small" type="primary" @click="passWork">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <!-- 歌手弹框 -->
+      <el-dialog title="理由" :visible.sync="diaSinger">
+        <el-form :model="formSingerRemark">
+            <el-form-item label="退回理由:">
+              <el-input size="small" v-model="formSingerRemark.commodityName"></el-input>
+            </el-form-item>    
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button size="small" @click="closeDia">取 消</el-button>
+          <el-button size="small" type="primary" @click="passSinger">确 定</el-button>
         </div>
       </el-dialog>
     </div>
+
   </div>
 </template>
 
@@ -121,135 +122,156 @@ import util from "@/util/utils";
 export default {
   data(){
     return{
-      loading: false,
-      user:{
-        accountCode: util.getSession("user").accountCode,
-        name: util.getSession("user").name,
-      },
       //查询
-      searchForm:{
-        input: '',
-        value: '',
-        radio: '1'
+      formWork:{//作品
+        state: 0,
+      },
+      formSinger:{//歌手
+        state: 0,
       },
       //选项
-      options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-      }],
+      workOptions: [{value: 0, label: '待审核'}, {value: 1, label: '审核通过',}],//作品
+      singerOptions: [{value: 0, label: '待审核'}, {value: 1, label: '审核通过',}],//歌手
       //表格
-      tableData:[],
-      pageInfo:{
-        currentPage: 4,
-        size: 20,
-        total: 100
+      workTableData:[],
+      singerTableData:[],
+      workPageInfo:{
+        current: 1,
+        pageSize: 10,
+        
       },
-      //备选
-      option:{
-        optionName: '',
-        price: '',
+      singerPageInfo:{
+        current: 1,
+        pageSize: 10,
+        
       },
+      workTotal: 0,
+      singerTotal: 0,
       //弹框表单
-      formData:{
-        commodityName: '',//商品名
-        options:'',//备选
-        picUrl: '',//图片
-        remark: '',//描述
-        saleCost: 0,//售/现价
-        originalCost: 0,//原价
-        type: '',//商品类型
-        creator: '',//创建人
-        creatorAccount: '',//创建者账户
-        options: [],//备选
+      formWorkRemark:{
+        remark: '',
+      },
+      formSingerRemark:{
+        remark: "",
       },
       //弹框
-      dialogFormVisible: false,
+      diaWork: false,
+      diaSinger: false,
     }
   },
+  mounted(){
+    this.getSingerList()
+  },
   methods:{
-    //新增商品
-    addCommoity(){
-      this.loading = true;
-      this.formData.creator = this.user.name;
-      this.formData.creatorAccount = this.user.accountCode;
-      this.$http.addCommoity(  this.formData )
-          .then(res => {
-            this.loading = false;
-            this.dialogFormVisible = false;
-            if (res.data.code == 0){
-              this.$myMsg.notify({
-                  content: res.data.msg,
-                  type: 'success'
-                })
+    
+    //获取作品列表
+    getWorkList(){
+      let parames = {
+        ...this.formWork,
+        ...this.workPageInfo
+      }
+      this.$http.getMusicList( parames ).then(({data}) => {
+        if (data.code == 0){
+          this.workTableData = data.data.records;
+          this.workTotal = data.data.total
+        }else{
+          this.$myMsg.notify({content: data.msg, type: 'error'})
+        }  
+      })
+    },
+
+    //获取歌手列表
+    getSingerList(){
+      let parames = {
+        ...this.formSinger,
+        ...this.singerPageInfo
+      }
+      this.$http.getSingerList( parames ).then(({data}) => {
+        if (data.code == 0){
+          this.singerTableData = data.data.records;
+          this.singerTotal = data.data.total
+        }else{
+          this.$myMsg.notify({content: data.msg, type: 'error'})
+        }  
+      })
+    },
+
+    //通过作品
+    passWork(val){
+      let parames = {
+        state: 1,
+        idList: [val],
+      }
+      this.$myMsg.confirm({
+        type: 'prompt',
+        content: `是否通过？`,
+        cancelFlag: true,
+        callback: ()=> {
+          this.$http.enableMusic( parames ).then(({data}) => {
+            if (data.code == 0){
+              this.$myMsg.notify({ content: `已通过！`, type: 'success'});
+              this.getWorkList();
             }
             else{
-               this.$myMsg.notify({
-                  content: res.data.msg,
-                  type: 'error'
-                })
+              this.$myMsg.notify({ content: data.msg, type: 'error'});
             }  
           })
-         .catch(err => {
-            this.loading = false;
-            this.dialogFormVisible = false;
-            this.$myMsg.notify({
-             content: err,
-             type: 'error'
-           })
-         })
+        }
+      })
+    },
+    
+    //是否通过歌手
+    passSinger(){
+
+    },
+    
+    //作品状态切换
+    workStateChange(){
+      this.getWorkList();
     },
 
-    //分页的方法
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    //歌手状态切换
+    singerStateChange(){
+      this.getSingerList();
     },
 
-    //备选处理
-    //添加
-    addOption(){
-      //插入数据
-      this.formData.options.push({optionName: this.option.optionName, price: this.option.price});
-      //清空
-      this.option.optionName = "";
-      this.option.price = 0;
-    },
-    //删除
-    deleteOption(index){
-      this.formData.options.splice(index, 1);
-    },
-    //备选处理结束
+    //打开作品退回窗口
+    openWorkDia(val){
 
-    //选中的方法
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
     },
-    //上传图片
-    handleAvatarSuccess(res, file) {
-      this.formData.picUrl =`${res.data}`;
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$myMsg.notify({
-          type: 'error',
-          content: '上传头像图片只能是 JPG 格式!',
-        })
+    //打开歌手退回窗口
+    openSingerDia(val){
+
+    },
+
+    //作品分页
+    workHandleCurrentChange(val) {
+      this.workPageInfo.current = val;
+      this.getMenuList();
+    },
+
+    //歌手分页
+    singerHandleCurrentChange(val) {
+      this.workPageInfo.current = val;
+      this.getMenuList();
+    },
+
+    //关闭弹框
+    closeDia(){
+      this.diaWork = false;
+      this.diaSinger = false;
+      this.clearParames();
+    },
+
+    //清空参数
+    clearParames(){
+      this.formWorkRemark = {
+        remark: '',
       }
-      if (!isLt2M) {
-        this.$myMsg.confirm({
-          type: 'error',
-          content: '上传头像图片大小不能超过 2MB!',
-        })
+      this.formSingerRemark = {
+        remark: '',
       }
-      return isJPG && isLt2M;
     }
   }
 }
@@ -261,10 +283,10 @@ export default {
 }
 	
 .examine .el-tabs__content {
-	position: relative;
+	position: absolute;
   top: unset;
   bottom: unset;
-  left: unset;
+  left: 95px;
 	right: unset;
 	height: 100%;
 	overflow-x: hidden;

@@ -34,6 +34,10 @@
             <i class="el-icon-cpu"></i>
             <span slot="title">审核管理</span>
           </el-menu-item>
+          <el-menu-item index="music">
+            <i class="el-icon-sugar"></i>
+            <span slot="title">音乐管理</span>
+          </el-menu-item>
           <el-menu-item index="menu">
             <i class="el-icon-s-operation"></i>
             <span slot="title">菜单管理</span>

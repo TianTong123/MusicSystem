@@ -1,5 +1,5 @@
 <template>
-  <div class="menu" style="height: 100%">
+  <div class="my-menu" style="height: 100%">
     <div class="m-wrap">
       <div class="m-head">
         <el-radio v-model="formSearch.state" @change="stateChange" label="1">已启用</el-radio>
@@ -29,7 +29,7 @@
           </el-table-column>
         </el-table>
 
-       <!-- 分页 -->
+        <!-- 分页 -->
         <el-pagination
           @current-change="handleCurrentChange"
           :current-page="pageInfo.current"

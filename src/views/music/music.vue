@@ -1,29 +1,24 @@
 <template>
-  <div class="user" style="height: 100%">
+  <div class="music" style="height: 100%">
     <div class="m-wrap">
       <div class="m-head">
-        <div class="m-label">账号:</div><el-input v-model="formSearch.keyWord" placeholder="请输入内容" clearable  prefix-icon="el-icon-search"></el-input>
-        <el-radio v-model="formSearch.state" @change="stateChange" label="0">已启用</el-radio>
-        <el-radio v-model="formSearch.state" @change="stateChange" label="1">已停用</el-radio>
-        <el-button type="primary" icon="el-icon-search" @click="getUserList" >搜索</el-button>
-        <el-button type="primary" icon="el-icon-remove-outline" @click="enableUser" >{{formSearch.state==1?'启用':'禁用'}}</el-button>
+        <div class="m-label">音乐名:</div><el-input v-model="formSearch.keyWord" placeholder="请输入内容" clearable  prefix-icon="el-icon-search"></el-input>
+        <el-radio v-model="formSearch.state" @change="stateChange" label="1">已上架</el-radio>
+        <el-radio v-model="formSearch.state" @change="stateChange" label="3">已下架</el-radio>
+        <el-button type="primary" icon="el-icon-search" @click="getMusicList" >搜索</el-button>
+        <el-button type="primary" icon="el-icon-remove-outline" @click="enableMusic" >{{formSearch.state==3?'启用':'禁用'}}</el-button>
       </div>
       <el-divider></el-divider>
       <div class="m-body">
         <el-table :data="tableData" tooltip-effect="dark"  @selection-change="handleSelectionChange" style="width: 100%">
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="account" label="账号" ></el-table-column>
-          <el-table-column prop="accountName" label="账号名" ></el-table-column>
-          <el-table-column prop="type" label="账号类型" >
-            <template slot-scope="scope">
-              <span v-if="scope.row.type == 1">歌手</span>
-              <span v-if="scope.row.type == 0">用户</span>
-            </template>
-          </el-table-column>
+          <el-table-column prop="name" label="音乐名" ></el-table-column>
+          <el-table-column prop="singer" label="歌手" ></el-table-column>
+          <el-table-column prop="createDate" label="上传时间" ></el-table-column>
           <el-table-column prop="state" label="状态">
             <template slot-scope="scope">
-                <span v-if="scope.row.state == 1">已启用</span>
-                <span v-if="scope.row.state == 0">已停用</span>
+                <span v-if="scope.row.state == 1">上架</span>
+                <span v-if="scope.row.state == 3">下架</span>
             </template>
           </el-table-column>
         </el-table>
@@ -61,13 +56,13 @@ export default {
     }
   },
   methods: {
-    //获取菜单列表
-    getUserList(){
+    //获取音乐列表
+    getMusicList(){
       let parames = {
         ...this.formSearch,
         ...this.pageInfo
       }
-      this.$http.getUserList( parames ).then(({data}) => {
+      this.$http.getMusicList( parames ).then(({data}) => {
         if (data.code == 0){
           this.tableData = data.data.records;
           this.total = data.data.total
@@ -77,25 +72,25 @@ export default {
       })
     },
 
-    //停启用菜单
-    enableUser(){
+    //停启用音乐
+    enableMusic(){
       if(this.multipleSelection.length == 0){
         this.$myMsg.notify({ content: '请选择至少一条数据再进行该操作！', type: 'error'});
         return
       }
       let parames = {
-        state: this.formSearch.state==0?1:0,
+        state: this.formSearch.state==1?3:1,
         idList: this.multipleSelection.map(v=>v.id),
       }
       this.$myMsg.confirm({
         type: 'prompt',
-        content: `是否${this.formSearch.state == 1?'启用':'停用'}这些用户？`,
+        content: `是否${this.formSearch.state == 3?'启用':'停用'}这些音乐？`,
         cancelFlag: true,
         callback: ()=> {
-          this.$http.enableAccount( parames ).then(({data}) => {
+          this.$http.enableMusic( parames ).then(({data}) => {
             if (data.code == 0){
-              this.$myMsg.notify({ content: `${this.formSearch.state == 1?'启用':'停用'}这些用户成功！`, type: 'success'});
-              this.getUserList();
+              this.$myMsg.notify({ content: `${this.formSearch.state == 3?'启用':'停用'}这些音乐成功！`, type: 'success'});
+              this.getMusicList();
             }
             else{
               this.$myMsg.notify({ content: data.msg, type: 'error'});
@@ -107,7 +102,7 @@ export default {
 
     //改变状态触发
     stateChange(){
-      this.getUserList();
+      this.getMusicList();
     },
 
      //选中的方法
@@ -118,7 +113,6 @@ export default {
     //分页
     handleCurrentChange(val) {
       this.pageInfo.current = val;
-      this.getUserList();
     },
    
   },

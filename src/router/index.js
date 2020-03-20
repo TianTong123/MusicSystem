@@ -36,6 +36,14 @@ export default new Router({
           },
           component: () => import("@/views/user/user"), 
         },
+        {//音乐管理
+          path: "music",
+          name: "music",
+          meta:{
+            title: '音乐管理',
+          },
+          component: () => import("@/views/music/music"), 
+        },
         { //菜单管理
           path: "menu",
           name: "menu",
