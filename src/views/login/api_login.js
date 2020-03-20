@@ -6,7 +6,7 @@ const api = {
   login: data => req({
     baseUrl: baseUrl,
     method: "post",
-    url: "user/login",
+    url: "account/login",
     params: data
   }), 
 }

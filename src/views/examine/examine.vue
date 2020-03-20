@@ -1,6 +1,15 @@
 <template>
-  <div class="commodity" style="height: 100%">
-    <div class="m-wrap">
+  <div class="examine" style="height: 100%">
+    
+    <div class="m-wrap"> 
+      <el-tabs tab-position="left" style="height: 200px;">
+        <el-tab-pane label="用户审核">
+          
+        </el-tab-pane>
+        <el-tab-pane label="作品审核">
+          
+        </el-tab-pane>
+      </el-tabs>
       <!-- 头 -->
       <div class="m-head">
         <el-input v-model="searchForm.input" placeholder="请输入内容" clearable  prefix-icon="el-icon-search"></el-input>
@@ -246,40 +255,32 @@ export default {
 }
 </script>
 
-<style scoped>
-.label-wrap{
-  display: block;
-  margin-top: 5px;
-  height: 70px;
-  overflow-y: auto;
+<style>
+.examine .el-tabs__item{
+	background-color: unset;
 }
-.label-wrap .my-label{
-  display: inline-block;
-  vertical-align: top;
-  padding-left: 5px;
-  margin: 5px 5px 0 5px;
-  height: 20px;
-  border-radius: 10px;
-  line-height: 20px;
-  background-color: #eee;
-  cursor: pointer;
+	
+.examine .el-tabs__content {
+	position: relative;
+  top: unset;
+  bottom: unset;
+  left: unset;
+	right: unset;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
-.label-wrap .my-label .close{
-  display: inline-block;
-  vertical-align: top;
-  margin: 2px 5px;
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  background-color: #ccc;
-  background-image: url(../../../static/images/close.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 8px;
-  overflow: hidden;
-  cursor: pointer;
+.examine .suppelier-num{
+	line-height: 40px;
 }
-.label-wrap .my-label .close:hover{
-  background-color: rgb(255, 136, 0);
+.examine .table-wrap{
+	position: relative;
+	width: 100%;
+	height: 235px;
+	
 }
+.examine .table-wrap .m-agTable{
+	height: 200px;
+}
+
 </style>

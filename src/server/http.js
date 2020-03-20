@@ -58,46 +58,59 @@ export const http = ({
     },
     //接口错误状态处理
     error => {
-      console.log(error.response)
-      if(error.response.status != null || error.response.status != ""){
-        let message = "";
-        switch (err.response.status) {
-            case 400:
-              message = '请求参数错误！'
-              break
-            case 404:
-              message = '地址找不到，404错误'
-              break
-            case 405:
-              message = '请求方法错误'
-              break
-            case 500:
-              message = '服务器端出错'
-              break
-            case 501:
-              message = '网络未实现'
-              break
-            case 502:
-              message = '网络错误'
-              break
-            case 503:
-              message = '服务不可用'
-              break
-            case 504:
-              message = '网络超时'
-              break
-            case 505:
-              message = 'http版本不支持该请求'
-              break
-            default:
-              message = `这个错误，是后台的锅！`
+      //关闭遮罩
+      if(store.state.isFullLoading){//全局遮罩
+        loading.close();  
+      }else{//局部遮罩
+        store.state.loading = false;
+      }
+      store.state.isFullLoading = false;//还原
+      //console.log("-->",error);
+      //console.log("==>",error.response)
+      //console.log("==>",error.response != null)
+      if(error.response != null){
+        if(error.response.status != null || error.response.status != ""){
+          let message = "";
+          switch (error.response.status) {
+              case 400:
+                message = '请求参数错误！'
+                break
+              case 404:
+                message = '地址找不到，404错误'
+                break
+              case 405:
+                message = '请求方法错误'
+                break
+              case 500:
+                message = '服务器端出错'
+                break
+              case 501:
+                message = '网络未实现'
+                break
+              case 502:
+                message = '网络错误'
+                break
+              case 503:
+                message = '服务不可用'
+                break
+              case 504:
+                message = '网络超时'
+                break
+              case 505:
+                message = 'http版本不支持该请求'
+                break
+              default:
+                message = `这个错误，是后台的锅！`
+          }
+          myMsg.confirm({
+            type: 'error',
+            content: message,//显示返回的错误信息
+          });
         }
-        myMsg.confirm({
-          type: 'error',
-          content: message,//显示返回的错误信息
-        })
-      } 
-      return error
+      }else{
+        return error;
+      }
+      
     }
   )
 
@@ -117,7 +130,7 @@ export const http = ({
   let token = util.getSession("token");
 
   if (token) {
-    config.headers.uid = util.getSession("user").accountCode;
+    config.headers.uid = util.getSession("user").account;
     config.headers.token = token;
   }
 

@@ -1,7 +1,9 @@
 import { req } from "./req";
 import api_login from "@/views/login/api_login";
 import api_home from "@/views/home/api_home";
-import api_commodity from "@/views/commodity/api_commodity";
+import api_examine from "@/views/examine/api_examine";
+import api_menu from "@/views/menu/api_menu";
+import api_right from "@/views/right/api_right";
 let api = {
   // Demo Code
   // // 重置个人信息
@@ -48,7 +50,9 @@ api = Object.assign(
   api,
   api_login,
   api_home,
-  api_commodity,
+  api_examine,
+  api_menu,
+  api_right,
 );
 
 export default api;
