@@ -2,7 +2,7 @@
   <div class="right" style="height: 100%">
     <div class="m-wrap">
       <div class="m-body">
-        <el-table :data="tableData" tooltip-effect="dark" style="width: 100%">
+        <el-table :data="tableData" border stripe style="width: 100%">
           <el-table-column prop="type" label="账号类型" >
             <template slot-scope="scope">
                 <span v-if="scope.row.type == 1">歌手</span>

@@ -6,6 +6,7 @@ import api_menu from "@/views/menu/api_menu";
 import api_right from "@/views/right/api_right";
 import api_user from "@/views/user/api_user";
 import api_music from "@/views/music/api_music";
+import api_recommend from "@/views/recommend/api_recommend";
 let api = {
   // Demo Code
   // // 重置个人信息
@@ -57,6 +58,7 @@ api = Object.assign(
   api_right,
   api_user,
   api_music,
+  api_recommend,
 );
 
 export default api;

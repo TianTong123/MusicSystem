@@ -24,7 +24,7 @@ export default new Router({
           path: "home",
           name: "home",
           meta:{
-            title: '首页',
+            title: '我的桌面',
           },
           component: () => import("@/views/home/home"), //主页
         },
@@ -67,6 +67,14 @@ export default new Router({
             title: '权限管理',
           },
           component: () => import("@/views/right/right"), 
+        },
+        { //推荐管理
+          path: "recommend",
+          name: "recommend",
+          meta:{
+            title: '推荐管理',
+          },
+          component: () => import("@/views/recommend/recommend"), 
         },
       ]
     },

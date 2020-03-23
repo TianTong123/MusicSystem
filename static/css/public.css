@@ -33,7 +33,20 @@
 .m-head .el-button{
   margin: 20px 0 0 20px;
 }
-
+/* mini版 */
+.m-mini-head{
+  width: 100%;
+}
+.m-mini-head .el-input{
+  display: inline-block;
+  width: 200px;
+}
+.m-mini-head .el-input input{
+  width: 200px;
+}
+.m-mini-head .el-button{
+  margin: 0 0 0 20px;
+}
 /* 块 */
 .m-block{
   flex:1;
@@ -68,9 +81,9 @@
   bottom: 0;
   width: 100%;
 }
-.el-tabs .el-tabs__content .el-tab-pane{
+/* .el-tabs .el-tabs__content .el-tab-pane{
   height: 100%;
-}
+} */
 
 /* 弹框样式 */
 .el-dialog{

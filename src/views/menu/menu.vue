@@ -9,7 +9,7 @@
       </div>
       <el-divider></el-divider>
       <div class="m-body">
-        <el-table :data="tableData" tooltip-effect="dark"  @selection-change="handleSelectionChange" style="width: 100%">
+        <el-table :data="tableData" stripe border @selection-change="handleSelectionChange" style="width: 100%">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="id" label="菜单id" ></el-table-column>
           <el-table-column prop="name" label="菜单名" ></el-table-column>

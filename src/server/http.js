@@ -65,39 +65,36 @@ export const http = ({
         store.state.loading = false;
       }
       store.state.isFullLoading = false;//还原
-      //console.log("-->",error);
-      //console.log("==>",error.response)
-      //console.log("==>",error.response != null)
       if(error.response != null){
         if(error.response.status != null || error.response.status != ""){
           let message = "";
           switch (error.response.status) {
               case 400:
-                message = '请求参数错误！'
+                message = '400 请求参数错误！'
                 break
               case 404:
                 message = '地址找不到，404错误'
                 break
               case 405:
-                message = '请求方法错误'
+                message = '405 请求方法错误'
                 break
               case 500:
-                message = '服务器端出错'
+                message = '500 服务器端出错'
                 break
               case 501:
-                message = '网络未实现'
+                message = '501 网络未实现'
                 break
               case 502:
-                message = '网络错误'
+                message = '502 网络错误'
                 break
               case 503:
-                message = '服务不可用'
+                message = '503 服务不可用'
                 break
               case 504:
-                message = '网络超时'
+                message = '504 网络超时'
                 break
               case 505:
-                message = 'http版本不支持该请求'
+                message = '505 http版本不支持该请求'
                 break
               default:
                 message = `这个错误，是后台的锅！`

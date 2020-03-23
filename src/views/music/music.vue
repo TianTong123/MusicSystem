@@ -10,7 +10,7 @@
       </div>
       <el-divider></el-divider>
       <div class="m-body">
-        <el-table :data="tableData" tooltip-effect="dark"  @selection-change="handleSelectionChange" style="width: 100%">
+        <el-table :data="tableData" border stripe  @selection-change="handleSelectionChange" style="width: 100%">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="name" label="音乐名" ></el-table-column>
           <el-table-column prop="singer" label="歌手" ></el-table-column>
@@ -54,6 +54,9 @@ export default {
       total: 0,
       multipleSelection: [],//选择的数据
     }
+  },
+  mounted(){
+    this.getMusicList();
   },
   methods: {
     //获取音乐列表

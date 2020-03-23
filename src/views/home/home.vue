@@ -1,8 +1,6 @@
 <template>
-  <div>
+  <div class="home">
     <h1>TianTong音乐网站后台管理系统</h1>
-    <button @click="test">登录</button>
-    <button @click="msg">消息</button>
   </div>
 </template>
 

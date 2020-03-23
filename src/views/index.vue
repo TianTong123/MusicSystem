@@ -4,10 +4,9 @@
       <div class="logo-title">TianTong音乐后台管理系统</div>
       <div class="user-wrap">
         <el-dropdown trigger="click" @command="handleCommand">
-          <el-avatar size="small" src=""></el-avatar>
+          <el-avatar size="small" src="../../static/images/account.png"></el-avatar>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-lock" command="1">修改密码</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-apple" command="2">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-apple" command="1">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -24,7 +23,11 @@
           active-text-color="#ffd04b">
           <el-menu-item index="home">
             <i class="el-icon-s-data"></i>
-            <span slot="title">首页</span>
+            <span slot="title">我的桌面</span>
+          </el-menu-item>
+           <el-menu-item index="recommend">
+            <i class="el-icon-ice-tea"></i>
+            <span slot="title">推荐管理</span>
           </el-menu-item>
           <el-menu-item index="user">
             <i class="el-icon-user-solid"></i>
@@ -55,11 +58,11 @@
             :key="item.name"
             :label="item.title"
             :name="item.name"
-            v-loading="loading"
           >
-            <router-view></router-view>
           </el-tab-pane>
+          <router-view v-loading="loading"></router-view>
         </el-tabs>
+        
       </div>
     </div>
   </div>
@@ -119,10 +122,31 @@ export default {
       });
       this.activeTab = name;
     },
+
     //下拉菜单点击(点击用户头像的)
     handleCommand(command) {
-      this.$message('click on item ' + command);
-    },
+      if(command == 1){
+        let parames = {
+          token: util.getSession('token')
+        }
+        this.$http.logout( parames )
+        .then(({data}) => {
+          if (data.code == 0){
+            this.$myMsg.notify({content: '注销成功',type: 'success'});
+            this.$router.replace({name: 'login'})
+            util.removeSession("token");
+            util.removeSession("activeTabs");
+            util.removeSession("user");
+          }
+          else{
+            this.$myMsg.notify({content: data.msg,type: 'error'})
+          }  
+        })
+        .catch(err => {
+          this.$myMsg.notify({content: err.message,type: 'error'})
+        })
+      }
+    }
   },
   watch:{
     //通过监听路由来进行控制tab的增减
