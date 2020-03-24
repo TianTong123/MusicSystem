@@ -250,8 +250,7 @@ export default {
         cancelFlag: true,
         callback: ()=> {
           this.$store.state.isFullLoading = true;
-          this.$http.passSinger( parames ).then(({data}) => {
-            this.closeDia();
+          this.$http.passSinger( parames ).then(({data}) => { 
             if (data.code == 0){
               this.$myMsg.notify({ content: `已${this.isPassSinger?'通过':'打回'}！`, type: 'success'});
               this.getSingerList();
@@ -259,6 +258,7 @@ export default {
             else{
               this.$myMsg.notify({ content: data.msg, type: 'error'});
             }  
+            this.closeDia();
           })
         }
       })
