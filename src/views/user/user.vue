@@ -2,7 +2,7 @@
   <div class="user" style="height: 100%">
     <div class="m-wrap">
       <div class="m-head">
-        <div class="m-label">账号:</div><el-input v-model="formSearch.keyWord" placeholder="请输入内容" clearable  prefix-icon="el-icon-search"></el-input>
+        <div class="m-label">账号:</div><el-input v-model="formSearch.keyWord" placeholder="请输入账号" clearable  prefix-icon="el-icon-search"></el-input>
         <el-radio v-model="formSearch.state" @change="stateChange" label="0">已启用</el-radio>
         <el-radio v-model="formSearch.state" @change="stateChange" label="1">已停用</el-radio>
         <el-button type="primary" icon="el-icon-search" @click="getUserList" >搜索</el-button>
@@ -22,8 +22,8 @@
           </el-table-column>
           <el-table-column prop="state" label="状态">
             <template slot-scope="scope">
-                <span v-if="scope.row.state == 1">已启用</span>
-                <span v-if="scope.row.state == 0">已停用</span>
+                <span v-if="scope.row.state == 0">已启用</span>
+                <span v-if="scope.row.state == 1">已停用</span>
             </template>
           </el-table-column>
         </el-table>
