@@ -200,6 +200,7 @@ export default {
      //选中的方法
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      this.getMenuList();
     },
 
     //分页

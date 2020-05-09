@@ -111,11 +111,13 @@ export default {
      //选中的方法
     handleSelectionChange(val) {
       this.multipleSelection = val;
+      this.getMusicList();
     },
 
     //分页
     handleCurrentChange(val) {
       this.pageInfo.current = val;
+      this.getMusicList();
     },
    
   },
