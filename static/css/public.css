@@ -131,14 +131,19 @@
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 137px;
-  height: 137px;
-  line-height: 137px;
+  width: 458px;
+  height: 148px;
+  line-height: 148px;
   text-align: center;
+  border-radius: 8px;
+  border: 1px dashed #606266;
+}
+.avatar-uploader-icon:hover{
+  border: 1px dashed #409EFF;
 }
 .avatar {
-  width: 137px;
-  height: 137px;
+  width: 460px;
+  height: 148px;
   display: block;
 }
 

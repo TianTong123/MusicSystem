@@ -77,15 +77,25 @@
         <div v-show="!isRecommend" class="slide-wrap"><div class="m-label">选择歌曲:</div><span class="green-color">{{selectMusic.name}}</span></div>
         <div v-show="!isRecommend" class="slide-wrap">
           <div class="m-label">选择图片:</div>
-          <el-upload
+          <my-img-tailoring
+            :show="diaMusicPoster"
+            :url="$global.imgUploadUrl"
+            :imgWidth="500"
+            :imgHeight="150"
+            @close="diaMusicPoster=false"
+            :onSuccess="handleAvatarSuccess">
+          </my-img-tailoring>
+          <img v-if="formSlide.picUrl" :src="`${$global.imgUrl+formSlide.picUrl}`" @click="diaMusicPoster = true" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon" @click="diaMusicPoster = true"></i>
+          <!-- <el-upload
             class="avatar-uploader"
             :action="$global.imgUploadUrl"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
+            :before-upload="beforeAvatarUpload"> 
             <img v-if="formSlide.picUrl" :src="`${$global.imgUrl+formSlide.picUrl}`" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <i v-else class="el-icon-plus avatar-uploader-icon" @click="diaMusicPoster = true"></i>
+           </el-upload> -->
         </div>
         <div slot="footer" v-show="!isRecommend" class="dialog-footer">
           <el-button size="small" @click="closeDia">取 消</el-button>
@@ -97,7 +107,11 @@
 </template>
 
 <script>
+import myImgTailoring from '@/components/myImgTailoring/myImgTailoring.vue'
 export default {
+  components:{
+    myImgTailoring
+  },
   data(){
     return{
       formSearch:{ //查询
@@ -115,6 +129,7 @@ export default {
       selectMusic: '',//选中的音乐
       //弹框
       diaAddMusic: false,//添加音乐
+      diaMusicPoster: false, //选择图片
       //页面状态
       isRecommend: true,//true推荐， false轮播图
 
@@ -288,7 +303,7 @@ export default {
 
     //上传图片
     handleAvatarSuccess(res, file) {
-      this.formSlide.picUrl =`${res.data}`;
+      this.formSlide.picUrl =res.data.data;
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
@@ -329,7 +344,7 @@ export default {
   height: 240px;
 }
 .recommend .slide-wrap .avatar-uploader-icon{
-  line-height: 240px;
+  line-height: 150px;
 }
 .recommend .slide-wrap .el-upload .avatar{
   position: absolute;
