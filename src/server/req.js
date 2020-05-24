@@ -20,7 +20,7 @@ const req = ({
   responseType,
 }) => {
   let options = {
-    url: apienv.dev.baseUrl + url,//拼接地址
+    url: apienv.dev.server + url,//拼接地址
     method: method,
     params: params,
     timeout: timeout,

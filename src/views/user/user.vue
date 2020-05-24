@@ -116,7 +116,6 @@ export default {
      //选中的方法
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      this.getUserList();
     },
 
     //分页
